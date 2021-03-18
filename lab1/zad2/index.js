@@ -18,20 +18,27 @@ function logPerson(person) {
 }
 function filterPersons(persons, criteria) {
     return persons.filter(function (person) {
-        return Object.keys(criteria).every(function (key) {
-            person[key] === criteria[key];
+        var criteriaKeys = Object.keys(criteria);
+        return criteriaKeys.every(function (fieldName) {
+            return person[fieldName] === criteria[fieldName];
         });
     });
     // TODO: zaimplementować funkcję, która przefiltruje tablicę persons za pomocą predykatu criteria
 }
+;
 // TODO:
 // 1. Przy pomocy funkcji logPerson wypisać osoby z tablicy users i admins (patrz foreach)
+console.log('To tablica users');
 users.forEach(function (person) { return logPerson(person); });
+console.log('To tablica admins');
 admins.forEach(function (person) { return logPerson(person); });
 // 2. Złączyć tablice users i admins i wypisać zawartość złączonej tablicy na konsoli (patrz operator spread)
+console.log('To nowa tablica');
 var newArray = __spreadArray(__spreadArray([], users), admins);
 newArray.forEach(function (person) { return logPerson(person); });
 // 3. Wypisać osoby powyżej 25 lat (patrz operator filter)
+console.log('Osoby powyej 25 lat');
 console.log(newArray.filter(function (person) { return person.age > 25; }));
 // 4. Wypisać osoby o imieniu Adam (zaimplementować funkcję filterPersons) -> const filtered = filterPersons(persons, { name: 'Adam' });
-filterPersons(newArray, { name: "Adam" });
+console.log('Adamy');
+console.log(filterPersons(newArray, { name: 'Adam' }));
