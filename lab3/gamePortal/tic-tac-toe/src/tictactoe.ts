@@ -11,5 +11,7 @@ export class TicTacToe implements Game {
         const div = document.createElement('div');
         div.appendChild(document.createTextNode("Hello TicTacToe"));
         return div;
+        
     }
+    
 }
