@@ -1,6 +1,6 @@
 import { Games } from "../games.enum";
 import { Game } from "../game.model";
-import { TicTacToe } from "../tic-tac-toe/src/tictactoe";
+import { TicTacToe } from "../tictactoe/tictactoe";
 import {BattleShips} from '../battleShips/battleShips'
 import './styles/styles.scss';
 
@@ -14,30 +14,41 @@ class App {
 
     init(): void {
         const menuContainer = <HTMLDivElement>(document.createElement('div')); // kontener menu dostępnych gier
-        const gameContainer = <HTMLDivElement>(document.createElement('div')); // kontener główny ekranu z grą
-        const list = document.createElement('ul'); // lista pozycji w menu dostępnych gier
+        const gameContainer = <HTMLDivElement>(document.createElement('div'));
+        const mainContainer = <HTMLDivElement>(document.createElement('div'));
+        const title = <HTMLDivElement>(document.createElement('h1'));// kontener główny ekranu z grą
+        gameContainer.classList.add('game_container'); 
+        menuContainer.classList.add('menu_container'); 
+        mainContainer.classList.add('main_container'); 
+        title.classList.add('title');
+        title.textContent = 'Game Portal'
+        const gamesWrapper = document.createElement('div'); // lista pozycji w menu dostępnych gier
         
          for (const gameKind of Object.keys(Games)) {
       if (isNaN(Number(gameKind))) {
         continue;
       }
       const game = this.gameFactory.getGame(Number(gameKind));
-      const item = document.createElement("li");
+      const item = document.createElement("div");
       item.appendChild(document.createTextNode(game.name));
+      item.classList.add('item');
       item.addEventListener("click", () => {
         gameContainer.innerHTML = "";
         gameContainer.appendChild(game.getGameElement());
+        
       });
-      list.appendChild(item);
+      gamesWrapper.appendChild(item);
     }
         // TODO: Zaimplementuj wzorzec fabryki/metody fabrykującej, tak aby na podstawie konkretnej wartości z enum
         // zwrócić obiekt gry. Z tego obiektu można następnie pobrać nazwę gry i dodać do menu oraz metodę zwracającą
         // samą grę i po kliknięciu w wybrany element listy wywoływać ją, aby doklejać zawartość do gameContainer.
         // Aby wyświetlić menu należy napisać pętlę, któta przeiteruje po wszystkich wartościach enum'a
 
-        menuContainer.appendChild(list);
-        document.body.appendChild(menuContainer);
-        document.body.appendChild(gameContainer);
+        menuContainer.appendChild(gamesWrapper);
+        mainContainer.appendChild(menuContainer)
+        mainContainer.appendChild(gameContainer);
+        document.body.appendChild(title);
+        document.body.appendChild(mainContainer);
     }
 }
 class GameFactory {
