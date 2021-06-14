@@ -9,8 +9,7 @@ export class TicTacToe implements Game {
         this.name = "Kółko i krzyżyk";
     }
     getGameElement(): HTMLElement {
-        const board = new Board(4);
-        console.log(board.table);
-        return <HTMLElement>board.table;
+        var board= new Board(3);
+        return board.table;
     }
 }

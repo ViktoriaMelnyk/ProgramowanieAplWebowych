@@ -5,8 +5,7 @@ import {BattleShips} from '../battleShips/battleShips'
 import './styles/styles.scss';
 
 class App {
-     gameFactory: GameFactory;
-
+    gameFactory: GameFactory;
     constructor(gameFactory: GameFactory) {
     this.gameFactory = gameFactory;
     this.init();
@@ -33,7 +32,6 @@ class App {
       item.appendChild(document.createTextNode(game.name));
       item.classList.add('item');
       item.addEventListener("click", () => {
-        gameContainer.innerHTML = "";
         gameContainer.appendChild(game.getGameElement());
         
       });
@@ -43,12 +41,18 @@ class App {
         // zwrócić obiekt gry. Z tego obiektu można następnie pobrać nazwę gry i dodać do menu oraz metodę zwracającą
         // samą grę i po kliknięciu w wybrany element listy wywoływać ją, aby doklejać zawartość do gameContainer.
         // Aby wyświetlić menu należy napisać pętlę, któta przeiteruje po wszystkich wartościach enum'a
-
+        const switcher= <HTMLButtonElement>document.createElement("button");
+        switcher.textContent = 'Pink Mode Switcher';
+        switcher.classList.add('button');
+        switcher.addEventListener("click", () => document.body.classList.toggle("green_mode"));
         menuContainer.appendChild(gamesWrapper);
         mainContainer.appendChild(menuContainer)
         mainContainer.appendChild(gameContainer);
-        document.body.appendChild(title);
+        document.body.append(title, switcher);
         document.body.appendChild(mainContainer);
+
+        
+
     }
 }
 class GameFactory {

@@ -15,6 +15,22 @@ function watch(target: object, propKey: string, descriptor: PropertyDescriptor) 
       return originalFn.call(this, param);
     };    
 }
+function forAdmin(target: any, propKey: string, descriptor: PropertyDescriptor) {
+	const originalFn = target[propKey];
+	descriptor.value = function (param: User) {
+		if (param.role === Role.Admin) {
+			originalFn.call(this, param);
+		}
+	};
+}
+function forModerator(target: any, propKey: string, descriptor: PropertyDescriptor) {
+	const originalFn = target[propKey];
+	descriptor.value = function (param: User) {
+		if (param.role === Role.Moderator || param.role === Role.Admin) {
+			originalFn.call(this, param);
+		}
+	};
+}
 
 enum Role {
     Standard = 'Standard',
@@ -68,18 +84,18 @@ class Resource {
         this.resourceValue = "resource value";        
     }
 
-    @watch
+    //@watch
+    @forModerator
     public read(user: User): void {
-        if (user.role === Role.Moderator || user.role === Role.Admin) {
-            console.log(this.resourceValue);
-        }
+        
+        console.log(this.resourceValue);
+
     }
 
-    @watch
+   // @watch
+    @forAdmin
     public change(user: User): void {
-        if (user.role === Role.Admin) {
             this.resourceValue = "changed resource value";
-        }
     }
     
 }

@@ -1,4 +1,5 @@
 export class Cell {
+
   cellValue: number ;
   htmlElement: HTMLElement;
   
@@ -7,16 +8,15 @@ export class Cell {
   }
  
   setCellValue(value: number) {
-    switch(value){
-      case -1:
-        this.htmlElement.textContent = 'O'
-        break;
-      case 1:
-        this.htmlElement.textContent = 'X'
-        break;
-      default:
-        this.htmlElement.textContent = ''
-        break;
+    this.cellValue = value;
+    if (this.cellValue === -1) {
+      this.htmlElement.innerText = "O";
+    }
+    if (this.cellValue === 1) {
+      this.htmlElement.innerText = "X";
+    }
+    if (this.cellValue === 0) {
+      this.htmlElement.innerText = "";
     }
   }
   fillCell(value: number){
