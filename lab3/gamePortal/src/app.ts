@@ -1,16 +1,13 @@
 import { Games } from "../games.enum";
-import { Game } from "../game.model";
-import { TicTacToe } from "../tictactoe/tictactoe";
-import {BattleShips} from '../battleShips/battleShips'
 import './styles/styles.scss';
+import { GameFactory } from "../gameFactory";
 
 class App {
-    gameFactory: GameFactory;
-    constructor(gameFactory: GameFactory) {
-    this.gameFactory = gameFactory;
-    this.init();
-    }
-
+  gameFactory: GameFactory; 
+  constructor(gameFactory: GameFactory) {
+      this.gameFactory = gameFactory;
+      this.init();
+  }
     init(): void {
         const menuContainer = <HTMLDivElement>(document.createElement('div')); // kontener menu dostępnych gier
         const gameContainer = <HTMLDivElement>(document.createElement('div'));
@@ -23,18 +20,21 @@ class App {
         title.textContent = 'Game Portal'
         const gamesWrapper = document.createElement('div'); // lista pozycji w menu dostępnych gier
         
-         for (const gameKind of Object.keys(Games)) {
-      if (isNaN(Number(gameKind))) {
-        continue;
-      }
+        for (const gameKind of Object.keys(Games)) {
+          if(isNaN(Number(gameKind))){
+              continue;
+          }
       const game = this.gameFactory.getGame(Number(gameKind));
       const item = document.createElement("div");
-      item.appendChild(document.createTextNode(game.name));
-      item.classList.add('item');
-      item.addEventListener("click", () => {
-        gameContainer.appendChild(game.getGameElement());
-        
-      });
+      if (game.disabled!== true){
+          item.appendChild(document.createTextNode(game.name));
+          item.classList.add('item');
+          item.addEventListener("click", () => {
+            gameContainer.appendChild(game.getGameElement());
+            
+          });
+      }
+
       gamesWrapper.appendChild(item);
     }
         // TODO: Zaimplementuj wzorzec fabryki/metody fabrykującej, tak aby na podstawie konkretnej wartości z enum
@@ -55,17 +55,6 @@ class App {
 
     }
 }
-class GameFactory {
-  getGame(game: Games): Game {
-    switch (game) {
-      case Games.TicTacToe:
-        return new TicTacToe();
-      case Games.BattleShips:
-        return new BattleShips();
-      default:
-        throw new Error("Invalid game!");
-    }
-  }
-}
 
-new App( new GameFactory() );
+
+new App(new GameFactory());
