@@ -1,8 +1,13 @@
 import {Cell} from './Cell';
+
+
 export class Board {
+
   cells: Cell[][];
   currentSymbol: number = 1;
   table: HTMLTableElement;
+
+
 
   constructor(size: number) {
     this.cells = new Array(size);
@@ -32,6 +37,7 @@ export class Board {
       this.currentSymbol *= -1;
       cell.fillCell(this.currentSymbol);
     }
+
     this.checkWin();
   }
   checkRow(row: number): number {
